@@ -175,7 +175,7 @@ def findSimilarFile():
                     f.write(f"FolderName:{temp}")
                     f.write("\n")
                     continue
-                if "FolderName" in IMAGE_FILES[idx+1]:
+                if "FolderName" in IMAGE_FILES[idx + 1]:
                     continue
 
                 image = cv2.flip(cv2.imread(file), 1)
@@ -202,7 +202,6 @@ def findSimilarFile():
 
                     fark = abs(hand1[i] - hand2[i])
 
-
                     if fark < 0.035:
                         if sayac >= benzerlik:
                             print(tempPictureName, "fotografı", IMAGE_FILES[idx + 1].split("\\")[10],
@@ -216,3 +215,46 @@ def findSimilarFile():
 
 
 # findSimilarFile()
+def countSimilars():
+    with open("SIMILARS.txt", "r") as f:
+        tempArray = f.read().splitlines()
+        letters = ["A", "B", "C", "D", "del", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "nothing", "O", "P",
+                   "Q",
+                   "R",
+                   "S", "space", "T", "U", "V",
+                   "W", "X", "Y", "Z"]
+
+        for i in range(len(letters)):
+            sayac = 0
+            for eleman in tempArray:
+                if "FolderName" in eleman:
+                    harf = eleman.split(":")[1]
+
+                if harf == letters[i] and "benzeyenler" in eleman:
+                    sayac = sayac + 1
+
+            print(sayac)
+
+
+
+countSimilars()
+
+
+def delSimilars():
+    delSelected = []
+    with open("SIMILARS.txt", "r") as f:
+        array = f.read().splitlines()
+        for eleman in array:
+            if "FolderName" in eleman:
+                harf = eleman.split(":")[1]
+                continue
+            if "benzeyenler" in eleman:
+                continue
+
+            tempStr = f"C:\\Users\\samet\\Desktop\\bitirme-projesi\\Data\\Letters\\asl_alphabet_train\\asl_alphabet_train\\{harf}\\{eleman}"
+            delSelected.append(tempStr)
+    print(delSelected)
+    for PATH in delSelected:
+        os.remove(PATH)
+
+# delSimilars()
