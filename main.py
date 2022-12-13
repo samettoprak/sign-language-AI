@@ -215,8 +215,33 @@ def findSimilarFile():
 
 
 # findSimilarFile()
+def reducerImg(letterArray):
+    # print("\n letterinfo")
+    for i in range(len(letterArray)):
+        if i % 2 == 0:
+            harf = letterArray[i]
+            sayi = letterArray[i + 1]
+            print(harf, sayi)
+            images = os.listdir(
+                f"C:\\Users\\samet\\Desktop\\bitirme-projesi\\Data\\Letters\\asl_alphabet_train\\asl_alphabet_train\\{harf}")
+            # print(images)
+            if sayi > 500:
+                divide = int(sayi / (sayi - 500))
+                sayac  = 0
+                for i in range(0, len(images), divide):
+                    sayac = sayac+1
+                    if sayac == (sayi-500):
+                        break
+                    # print(divide)
+                    print(i)
+
+                    os.remove(
+                        f"C:\\Users\\samet\\Desktop\\bitirme-projesi\\Data\\Letters\\asl_alphabet_train\\asl_alphabet_train\\{harf}\\{images[i]}")
+
+
 def countSimilars():
     with open("SIMILARS.txt", "r") as f:
+        letterInfo = []
         tempArray = f.read().splitlines()
         letters = ["A", "B", "C", "D", "del", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "nothing", "O", "P",
                    "Q",
@@ -225,6 +250,7 @@ def countSimilars():
                    "W", "X", "Y", "Z"]
 
         for i in range(len(letters)):
+            letterInfo.append(letters[i])
             sayac = 0
             for eleman in tempArray:
                 if "FolderName" in eleman:
@@ -233,8 +259,9 @@ def countSimilars():
                 if harf == letters[i] and "benzeyenler" in eleman:
                     sayac = sayac + 1
 
-            print(sayac)
-
+            letterInfo.append(sayac)
+    print(letterInfo)
+    reducerImg(letterInfo)
 
 
 countSimilars()
